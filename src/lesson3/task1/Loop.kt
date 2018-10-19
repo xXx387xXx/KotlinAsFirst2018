@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Math.pow
 import kotlin.math.sqrt
 import kotlin.math.max
+import kotlin.math.round
 
 /**
  * Пример
@@ -187,7 +189,7 @@ fun collatzSteps(x: Int): Int {
         if (a % 2 == 0)
             a /= 2
         else a = a * 3 + 1
-        counter = 1
+        counter += 1
 
     }
     return counter
@@ -218,7 +220,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var revertedNumber = n % 10
+    var a = n / 10
+
+    while (a >= 1)
+    {
+        revertedNumber = revertedNumber * 10 + (a % 10)
+        a /= 10
+    }
+    return revertedNumber
+}
 
 /**
  * Средняя
@@ -229,7 +241,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -250,7 +262,29 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var counter = 0
+    var a = 1.0
+    var b = 1.0
+    var e = 1
+    var f: Double
+    while (counter < n)
+    {
+        b += (2 * sqrt(b) + 1.0)
+        f = b
+        while (f >= 1)
+        {
+            f /= 10
+            e += 1
+        }
+        a = a * (pow(10.0, e.toDouble())) + b
+        counter += e
+        e = 0
+    }
+    if (counter > n)
+        a = round(a / (10 * (counter - n)))
+    return (a % 10).toInt()
+}
 
 /**
  * Сложная
