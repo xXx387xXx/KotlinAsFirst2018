@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -62,11 +63,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = if ((age % 100) in 10..20) "$age лет" else when ((age % 100) !in 10..20) {
+fun ageDescription(age: Int): String = when {
+    (age % 100) in 10..20 -> "$age лет"
     (age % 10) == 1 -> "$age год"
     (age % 10) in 2..4 -> "$age года"
     else -> "$age лет"
 }
+
 /**
  * Простая
  *
@@ -76,11 +79,20 @@ fun ageDescription(age: Int): String = if ((age % 100) in 10..20) "$age лет" 
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = when {
-    (t1 * v1 + t2 * v2 + t3 * v3) / 2.0 <= t1 * v1 -> t1 * (((t1 * v1 + t2 * v2 + t3 * v3) / 2.0) / (t1 * v1))
-    (t1 * v1 + t2 * v2 + t3 * v3) / 2.0 > t1 * v1 && (t1 * v1 + t2 * v2 + t3 * v3) / 2.0 <= t1 * v1 + t2 * v2 -> t1 + (t2 * (((t1 * v1 + t2 * v2 + t3 * v3) / 2.0 - v1 * t1) / (t2 * v2)))
-    else -> t1 + t2 + (t3 * (((t1 * v1 + t2 * v2 + t3 * v3) / 2.0 - (v1 * t1 + v2 * t2)) / (v3 * t3)))
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val halfway = (s1 + s2 + s3) / 2.0
+    val halfTime: Double
+    when {
+        halfway <= s1 -> halfTime = t1 * (halfway / s1)
+        halfway > s1 && halfway <= s2 + s1 -> halfTime = t2 * ((halfway - s1) / s2) + t1
+        else -> halfTime = t3 * ((halfway - s2 - s1) / s3) + t2 + t1
+    }
+    return halfTime
 }
+
 /**
  * Простая
  *
@@ -121,7 +133,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     else -> 0
 
 
-
 }
 
 /**
@@ -149,9 +160,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
         when {
-            b > d && a in c..d -> d - a
-            b > d && d in a..b && c in a..b -> d - c
-            d > b && c in a..b -> b - c
-            d > b && a in c..d && b in c..d -> b - a
+            b >= d && a in c..d -> d - a
+            b >= d && d in a..b && c in a..b -> d - c
+            d >= b && c in a..b -> b - c
+            d >= b && a in c..d && b in c..d -> b - a
             else -> -1
-}
+        }
