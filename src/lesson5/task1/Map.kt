@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 /**
  * Пример
  *
@@ -107,6 +109,16 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+/*{
+    var map = mapOf<Int, String>()
+    var list = listOf<String>()
+    var keys = listOf<Int>()
+    for (i in grades) {
+        map +=
+    }
+    return
+}
+*/
 
 /**
  * Простая
@@ -118,7 +130,14 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for (i in a) {
+        when (i.key in b) {
+            i.value != b[i.key] -> return false
+        }
+    }
+    return true
+}
 
 /**
  * Средняя

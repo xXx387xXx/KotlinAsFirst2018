@@ -7,6 +7,7 @@ import lesson1.task1.sqr
 import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
+import lesson3.task1.revert
 
 /**
  * Пример
@@ -141,8 +142,7 @@ fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() /
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty())
-    {
+    if (list.isNotEmpty()) {
         val average = mean(list)
         for (i in 0 until list.size)
             list[i] = list[i] - average
@@ -158,14 +158,12 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if (a.isNotEmpty() && b.isNotEmpty())
-    {
+    if (a.isNotEmpty() && b.isNotEmpty()) {
         var sum = 0.0
         for (i in 0 until a.size)
             sum += a[i] * b[i]
         return sum
-    }
-else return 0.0
+    } else return 0.0
 }
 
 /**
@@ -209,7 +207,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var b = 2
+    var c = n
+    var a = mutableListOf(0)
+    while (c >= b) {
+        if (c % b == 0) {
+            a.add(b)
+            c /= b
+        } else {
+            b += 1
+        }
+    }
+    return a.sorted() - a[0]
+}
 
 /**
  * Сложная
@@ -218,7 +229,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -227,7 +238,24 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    if (n < base) return listOf(n)
+    var a = n
+    var list = mutableListOf<Int>()
+    while (a > base) {
+        list.add(a % base)
+        a /= base
+    }
+    list.add(a)
+    return listRevert(list)
+}
+
+fun listRevert(n: List<Int>): List<Int> {
+    var list1 = mutableListOf<Int>()
+    for (i in n.size - 1 downTo 0)
+        list1.add(n[i])
+    return list1
+}
 
 /**
  * Сложная
@@ -237,7 +265,20 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var arr = convert(n, base).toIntArray()
+    var alp = arrayOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+            't', 'u', 'v', 'w', 'x', 'y', 'z')
+    var str = ""
+    for (i in 0 until arr.size) {
+        when {
+            arr[i] > 46 -> str = str + alp[i - 9] + (arr[i] % 46)
+            arr[i] in 10..46 -> str += alp[i - 9]
+            else -> str += arr[i]
+        }
+    }
+    return str
+}
 
 /**
  * Средняя
@@ -246,7 +287,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var a = listRevert(digits).toIntArray()
+    for (i in 0 until digits.size) {
+        a[i] = (a[i] * pow(base.toDouble(), i.toDouble())).toInt()
+    }
+    return a.sum()
+}
 
 /**
  * Сложная
