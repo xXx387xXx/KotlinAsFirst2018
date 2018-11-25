@@ -175,8 +175,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val maxbd = max(b, d)
     val minbd = min(b, d)
     val maxca = max(c, a)
-    when (maxbd - minbd > maxbd - maxca) {
-        false -> return -1
-        true -> return maxca - minbd
-    }
+    if (maxbd - minbd > maxbd - maxca)
+        return -1
+    else return abs(maxca - minbd)
 }

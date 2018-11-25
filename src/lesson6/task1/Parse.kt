@@ -49,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +69,15 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String = TODO()/*{
+    val months = mapOf("января" to "1", "февраля" to "2", "марта" to "3", "апреля" to "4",
+            "мая" to "5", "июня" to "6", "июля" to "7", "августа" to "8", "сентября" to "9",
+            "октября" to "10", "ноября" to "11", "декабря" to "12")
+    val str1 = str.split(" ").toList().toMutableList()
+    if (str1[1] in months.keys)
+        str1[1] = months[str[1]]
+}
+*/
 
 /**
  * Средняя
@@ -97,7 +103,13 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val allowed = "+123456789-() "
+    if (phone.any { it !in allowed })
+        return ""
+    val restricted = "-() "
+    return phone.filter { it !in restricted }
+}
 
 /**
  * Средняя
@@ -109,7 +121,15 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val alw = "0123456789 -%"
+    if (jumps.any { it !in alw })
+        return -1
+    if (jumps.any { it in alw.substring(0, 10) == false })
+        return -1
+    val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
+    return a.max()!!
+}
 
 /**
  * Сложная

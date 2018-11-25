@@ -1,8 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import kotlin.math.sqrt
 import lesson1.task1.sqr
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Пример
@@ -20,6 +23,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean = (number % 10) + ((number % 100) / 10) ==
         ((number % 1000) / 100) + (number / 1000)
+
 /**
  * Простая
  *
@@ -62,6 +66,15 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = ((r >= a) && (s >= b)) || ((r >= b) && (s >= a))
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val min = min(a, min(b, c))
+    val ave = a + b + c - min - max(a, max(b, c))
+    if (ave <= max(r, s) && min <= min(r, s))
+        return true
+    return false
+}
+
+/*((r >= a) && (s >= b)) || ((r >= b) && (s >= a))
 || ((r >= a) && (s >= c)) || ((r >= c) && (s >= a))
 || (((r >= c) && (s >= b)) || ((r >= b) && (s >= c)))
+*/
