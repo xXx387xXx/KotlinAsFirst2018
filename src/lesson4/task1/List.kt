@@ -213,7 +213,7 @@ fun factorize(n: Int): List<Int> {
             b += 1
         }
     }
-    return a.sorted()
+    return a
 }
 
 /**
@@ -241,16 +241,16 @@ fun convert(n: Int, base: Int): List<Int> {
         a /= base
     }
     list.add(a)
-    return listRevert(list)
+    return list.reversed()
 }
-
+/*
 fun listRevert(n: List<Int>): List<Int> {
     var list1 = mutableListOf<Int>()
     for (i in n.size - 1 downTo 0)
         list1.add(n[i])
     return list1
 }
-
+*/
 /**
  * Сложная
  *
@@ -281,7 +281,7 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    val a = listRevert(digits).toIntArray()
+    val a = digits.reversed().toIntArray()
     for (i in 0 until digits.size) {
         a[i] = (a[i] * pow(base.toDouble(), i.toDouble())).toInt()
     }

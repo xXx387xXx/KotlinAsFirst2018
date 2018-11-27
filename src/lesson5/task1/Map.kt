@@ -276,7 +276,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty())
+    if (chars.isEmpty() || word.isEmpty())
         return false
     for (i in chars) {
         if (i !in word)
@@ -332,6 +332,7 @@ fun hasAnagrams(words: List<String>): Boolean {
             }
     return false
 }
+
 
 /**
  * Сложная

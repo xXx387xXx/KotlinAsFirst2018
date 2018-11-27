@@ -111,7 +111,7 @@ fun lcm(m: Int, n: Int): Int {
         d = e2 % d
         e2 = e
     }
-    return m * n / e
+    return m / n * e
 }
 
 /**
