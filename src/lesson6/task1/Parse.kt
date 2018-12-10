@@ -123,12 +123,21 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val alw = "0123456789 -%"
-    if (jumps.any { it !in alw })
-        return -1
-    if (jumps.any { it in alw.substring(0, 10) == false })
-        return -1
-    val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
-    return a.max()!!
+//  if (jumps.any { it !in alw }) return -1
+    for (i in jumps)
+        if (i !in alw)
+            return -1
+
+    if (jumps.any { it in alw[0]..alw[11] }) {
+        //val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
+        val a = jumps.filter { it in alw.substring(0, 12) }.split(" ").filter { it.isNotEmpty() }
+        var c = 0
+        for (i in 0 until a.size)
+            if (c < a[i].toInt())
+                c = a[i].toInt()
+        return c
+    }
+    return -1
 }
 
 /**
