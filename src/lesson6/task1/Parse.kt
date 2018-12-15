@@ -137,9 +137,9 @@ fun bestLongJump(jumps: String): Int {
             val b = a.split(" ")
             val d = b.filter { it.isNotEmpty() }
             var c = 0
-            for (i in 0 until d.size)
-                if (c < a[i].toInt())
-                    c = a[i].toInt()
+            for (e in 0 until d.size)
+                if (c < a[e].toInt())
+                    c = a[e].toInt()
             return c
         }
     }
