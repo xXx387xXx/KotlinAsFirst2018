@@ -144,7 +144,9 @@ fun bestLongJump(jumps: String): Int {
         }
     }
     return -1
-    /*if (jumps.any { it in alw.substring(0, 11) }) {
+
+
+    /*if (jumps.any { it in alw.substring(0, 11) })
         //val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
         val a = jumps.filter { it in alw.substring(0, 12) }.split(" ").filter { it.isNotEmpty() }
         var c = 0
