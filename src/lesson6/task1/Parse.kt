@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import jdk.nashorn.internal.objects.Global.eval
+import java.lang.IllegalArgumentException
+
 /**
  * Пример
  *
@@ -123,12 +126,34 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val alw = "0123456789 -%"
-    if (jumps.any { it !in alw })
-        return -1
-    if (jumps.any { it in alw.substring(0, 10) == false })
-        return -1
-    val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
-    return a.max()!!
+//  if (jumps.any { it !in alw }) return -1
+    for (i in jumps)
+        if (i !in alw)
+            return -1
+
+    for (i in jumps) {
+        if (i in alw.substring(0, 12)) {
+            val a = jumps.filter { it in alw.substring(0, 12) }
+            val b = a.split(" ")
+            val d = b.filter { it.isNotEmpty() }
+            var c = 0
+            for (i in 0 until d.size)
+                if (c < a[i].toInt())
+                    c = a[i].toInt()
+            return c
+        }
+    }
+    return -1
+    /*if (jumps.any { it in alw.substring(0, 11) }) {
+        //val a = ((jumps.filter { it in alw.substring(0, 11) }).split(" ")).map { it.toInt() }
+        val a = jumps.filter { it in alw.substring(0, 12) }.split(" ").filter { it.isNotEmpty() }
+        var c = 0
+        for (i in 0 until a.size)
+            if (c < a[i].toInt())
+                c = a[i].toInt()
+        return c
+    }
+    return -1 */
 }
 
 /**
@@ -152,7 +177,28 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val alw = "0123456789 +-"
+    val a = expression.trim('+', ' ', '-').split(" ")
+    if (expression.any { it !in alw } || a.withIndex().any { it.value in a[it.index + 1] } || a.isEmpty())
+        throw IllegalArgumentException()
+    var b = 0
+    for (i in 1 until a.size step 2) {
+        if (a[i] in "+")
+            b += a[i - 1].toInt() + a[i + 1].toInt()
+        else b += a[i - 1].toInt() - a[i + 1].toInt()
+    }
+    return b
+    /*for (i in 0 until a.toMutableList().size step 2) {
+        b += a[i].toInt()
+    }
+    var c = b[1]
+    for (i in 1 until a.size step 2) {
+        if (a[i] in "+")
+
+    }*/
+
+}
 
 /**
  * Сложная
