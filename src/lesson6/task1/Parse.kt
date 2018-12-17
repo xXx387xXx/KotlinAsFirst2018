@@ -2,8 +2,7 @@
 
 package lesson6.task1
 
-import jdk.nashorn.internal.objects.Global.eval
-import java.lang.IllegalArgumentException
+import kotlin.IllegalArgumentException
 
 /**
  * Пример
@@ -180,28 +179,52 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val alw = "0123456789 +-"
-    val a = expression.trim('+', ' ', '-').split(" ")
-    if (expression.any { it !in alw } || a.withIndex().any { it.value in a[it.index + 1] } || a.isEmpty())
+    if (Regex("""^\d+$|^\d+\s[+-]\s\d+$|^(\d+\s[+-]\s)+\d+$""") !in expression
+            || expression.isEmpty())
         throw IllegalArgumentException()
-    var b = 0
+    val a = expression.split(" ")
+    var b = a[0].toInt()
     for (i in 1 until a.size step 2) {
-        if (a[i] in "+")
-            b += a[i - 1].toInt() + a[i + 1].toInt()
-        else b += a[i - 1].toInt() - a[i + 1].toInt()
+        when (a[i]) {
+            "+" -> b += a[i + 1].toInt()
+            "-" -> b -= a[i + 1].toInt()
+            else -> throw IllegalArgumentException()
+        }
     }
     return b
-    /*for (i in 0 until a.toMutableList().size step 2) {
-        b += a[i].toInt()
-    }
-    var c = b[1]
-    for (i in 1 until a.size step 2) {
-        if (a[i] in "+")
-
-    }*/
-
 }
+/*val a = expression.split(" ")
+try {
+    var b = a[0].toInt()
+    for (i in 1 until a.size step 2) {
+        when (a[i]) {
+            "+" -> b += a[i + 1].toInt()
+            "-" -> b -= a[i + 1].toInt()
+            else -> throw IllegalArgumentException()
+        }
+    }
+    return b
+} catch (e: IllegalArgumentException) {
+    throw e
+}*/
 
+/*for (i in expression)
+    if (i !in alw)
+        throw IllegalArgumentException()
+for (i in 1 until a.size step 2) {
+    if (a[i] !in "+-")
+        throw IllegalArgumentException()
+}
+if (a.isEmpty())
+    throw IllegalArgumentException()
+var b = a[0].toInt()
+for (i in 1 until a.size step 2) {
+    if (a[i] in "+")
+        b += a[i + 1].toInt()
+    else b -= a[i + 1].toInt()
+}
+return b
+} */
 /**
  * Сложная
  *
@@ -211,7 +234,17 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val a = str.split(' ').toMutableList()
+    var b = 0
+    for (i in 0..a.size - 2) {
+        if (a[i].toLowerCase() == a[i + 1].toLowerCase())
+            return i + b
+        b += a[i].length
+    }
+    return -1
+}
+
 
 /**
  * Сложная
